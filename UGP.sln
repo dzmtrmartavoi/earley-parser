@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "UGP.Core", "UGP\UGP.Core.fsproj", "{AADEACDC-A445-4252-849A-33A78846AD2F}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "UGP.Core", "UGP.Core\UGP.Core.fsproj", "{AADEACDC-A445-4252-849A-33A78846AD2F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
