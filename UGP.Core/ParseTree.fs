@@ -1,5 +1,10 @@
 ﻿namespace UGP.Core
 
+// A parse tree that represents the derivation of a string based on the rules in a grammar.
+// Parse trees recursively contain x.Children - other parse trees, so they can be iterated through to
+// find the entire derivation of a category. A parse tree can also be 
+// traversed upward by getting x.Parent for each successive parse
+// tree until it returns None.
 type ParseTree(category : Category, parent : ParseTree option, children : ParseTree seq option) =
     member x.Category with get() = category
     member x.Parent with get() = parent
