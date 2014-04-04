@@ -28,7 +28,8 @@ type Rule(left : Category, right : Category seq) =
     //Test whether the rule equals to another, with the same left and the right side
     override x.Equals(obj) =
         match obj with
-            | :? Rule as rule -> (x.Left = rule.Left) && (Seq.forall (fun (one, another) -> one = another) (Seq.zip x.Right rule.Right))
+            | :? Rule as rule -> 
+                (x.Left = rule.Left) && (Seq.forall (fun (one, another) -> one = another) (Seq.zip x.Right rule.Right))
             | _ -> false
 
     override x.GetHashCode() =
@@ -37,6 +38,9 @@ type Rule(left : Category, right : Category seq) =
     //Return string representation of the production
     override x.ToString() =
         let builder = StringBuilder()
-        builder.Append(x.Left).Append(" -> ") |> ignore
+        builder
+            .Append(x.Left)
+            .Append(" -> ") |> ignore
         x.Right |> Seq.iter (fun c -> builder.Append(c.ToString()).Append(' ') |> ignore)
-        builder.ToString()
+        builder
+            .ToString()

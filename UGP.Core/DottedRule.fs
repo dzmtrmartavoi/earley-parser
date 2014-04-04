@@ -27,7 +27,7 @@ type DottedRule(rule : Rule, pos) =
         |> (fun builder -> builder.ToString())
 
     //Creates a dotted rule based on the specified rule with biased position.
-    static member AdvanceDot(dottedRule : DottedRule) =
+    static member advanceDot(dottedRule : DottedRule) =
         DottedRule(dottedRule, dottedRule.Position + 1)
 
 
