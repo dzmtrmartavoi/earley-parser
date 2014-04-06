@@ -1,32 +1,44 @@
 ﻿namespace UGP.Core
 
-open System
+    type CategoryType =
+        | Terminal
+        | NonTerminal
 
-type CategoryType =
-    | Terminal
-    | NonTerminal
+    [<Sealed>]
+    type Category(name : string, categoryType : CategoryType) = 
 
-type Category(name : string, categoryType : CategoryType) = 
-    member x.Type with get() = categoryType
-    member x.Name with get() = name
+        interface System.IEquatable<Category> with
+            member x.Equals category =
+                x.Name = category.Name 
+                && x.Type = category.Type
 
-    override x.Equals(obj) =
-        match obj with
-            | :? Category as another -> (x.Name = another.Name) && (x.Type = another.Type) 
-            | _ -> false
+        interface System.IComparable<Category> with
+            member x.CompareTo(another) =
+                x.Name.CompareTo another.Name
 
-    override x.GetHashCode() =
-        x.Name.GetHashCode() * x.Type.GetHashCode()
+        interface System.IComparable with
+            member x.CompareTo(another) =
+                match another with
+                    | :? Category as anotherCat  -> 
+                        (x :> System.IComparable<_>).CompareTo anotherCat
+                    | _ -> invalidArg "another" "is not a Category"
 
-    override x.ToString() =
-        x.Name
+        member x.Type with get() = categoryType
+        member x.Name with get() = name
 
-    interface IComparable<Category> with
-        member x.CompareTo(another) =
-            x.Name.CompareTo another.Name
+        override x.Equals(obj) =
+            match obj with
+                | :? Category as another ->
+                    (x :> System.IEquatable<_>).Equals another
+                | _ -> false
 
-    interface IComparable with
-        member x.CompareTo(another) =
-            match another with
-                | :? Category as anotherCat  -> (x :> IComparable<_>).CompareTo anotherCat
-                | _ -> invalidArg "another" "is not a Category"
+        override x.GetHashCode() =
+            x.Name.GetHashCode() * x.Type.GetHashCode()
+
+        override x.ToString() =
+            x.Name
+
+    [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
+    [<RequireQualifiedAccess>]
+    module Category =
+        let start = Category("START", NonTerminal)
