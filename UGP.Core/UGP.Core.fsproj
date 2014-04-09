@@ -32,26 +32,6 @@
     <WarningLevel>3</WarningLevel>
     <DocumentationFile>bin\Release\UGP.XML</DocumentationFile>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="mscorlib" />
-    <Reference Include="FSharp.Core, Version=$(TargetFSharpCoreVersion), Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Numerics" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Category.fs" />
-    <Compile Include="Rule.fs" />
-    <Compile Include="Grammar.fs" />
-    <Compile Include="DottedRule.fs" />
-    <Compile Include="Status.fs" />
-    <Compile Include="Edge.fs" />
-    <Compile Include="ParseTree.fs" />
-    <Compile Include="Chart.fs" />
-    <Compile Include="Parse.fs" />
-  </ItemGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
   </PropertyGroup>
@@ -68,6 +48,28 @@
     </Otherwise>
   </Choose>
   <Import Project="$(FSharpTargetsPath)" />
+  <ItemGroup>
+    <Compile Include="CategoryType.fs" />
+    <Compile Include="Category.fs" />
+    <Compile Include="Rule.fs" />
+    <Compile Include="Grammar.fs" />
+    <Compile Include="DottedRule.fs" />
+    <Compile Include="Status.fs" />
+    <Compile Include="Edge.fs" />
+    <Compile Include="ParseTree.fs" />
+    <Compile Include="Chart.fs" />
+    <Compile Include="Parse.fs" />
+    <Compile Include="EarleyParser.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="mscorlib" />
+    <Reference Include="FSharp.Core, Version=$(TargetFSharpCoreVersion), Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
+  </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

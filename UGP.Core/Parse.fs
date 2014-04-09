@@ -3,7 +3,11 @@
     open System.Text
 
     type Parse(seed, chart : Chart, tokens : string seq) =
+
         let mutable parseTrees = Seq.empty
+
+//        new(seed, chart) =
+//            Parse(seed, chart, Seq.empty)
 
         member x.Seed with get() = seed
         member x.Chart with get() = chart

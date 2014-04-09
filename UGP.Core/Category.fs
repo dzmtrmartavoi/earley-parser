@@ -1,12 +1,11 @@
 ﻿namespace UGP.Core
 
-    type CategoryType =
-        | Terminal
-        | NonTerminal
-
     [<Sealed>]
     type Category(name : string, categoryType : CategoryType) = 
-
+        do
+            if (name.Length = 0) then
+                invalidArg "name" "name is empty"
+        
         interface System.IEquatable<Category> with
             member x.Equals category =
                 x.Name = category.Name 

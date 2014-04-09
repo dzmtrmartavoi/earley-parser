@@ -11,6 +11,9 @@
             if (Seq.length right = 0) then
                 invalidArg "right" "haven't categories"
 
+        new(left : Category, right : Category) =
+            Rule(left, Seq.singleton right)
+
         member x.Left with get() = left
         member x.Right with get() = right
 

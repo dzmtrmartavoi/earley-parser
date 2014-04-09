@@ -30,22 +30,25 @@
             rules.ContainsKey(category)
 
         member x.GetRules(category) = 
-            rules.[category]
+            Seq.ofList rules.[category]
 
         member x.GetRules() =
-            rules |> Map.fold (fun rs c r -> r @ rs) List.empty
+            rules
+                |> Map.fold (fun rs c r -> r @ rs) List.empty
+                |> Seq.ofList
 
         //Get single preterminal rule with the specified left category, produced the given string token
         member x.GetSinglePreterminal(left, token) : Rule option =
             if (x.HasRule(left)) then
-                x.GetRules(left) |> List.pick (fun rule -> 
-                                                            if ((Seq.head rule.Right).Name = token) then Some(Some(rule))
-                                                            else None)
+                x.GetRules(left)
+                    |> Seq.pick (fun rule -> 
+                                            if ((Seq.head rule.Right).Name = token) then Some(Some(rule))
+                                            else None)
             else None
 
         //Returns string represenatation of this grammar
         override x.ToString() =
             let builder = StringBuilder().Append("[")
             x.GetRules() 
-            |> List.fold (fun (builder : StringBuilder) rule -> builder.Append(rule).AppendLine(", ")) builder
-            |> (fun builder -> builder.Append("]").ToString())
+                |> Seq.fold (fun (builder : StringBuilder) rule -> builder.Append(rule).AppendLine(", ")) builder
+                |> (fun builder -> builder.Append("]").ToString())

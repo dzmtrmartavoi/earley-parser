@@ -11,6 +11,9 @@ type Chart(edgeSets : Map<int, Set<Edge>>) =
         member x.Equals another =
             x.EdgeSets = another.EdgeSets
 
+    new() =
+        Chart(Map.empty)
+
     member val EdgeSets = edgeSets with get, set
 
     member x.subChart(f , t) =
@@ -21,6 +24,10 @@ type Chart(edgeSets : Map<int, Set<Edge>>) =
 
     member x.tailChart(f) =
         Chart(Map.filter (fun k _ -> k >= f) x.EdgeSets)
+
+    member x.getEdges(index) =
+        x.EdgeSets.[index]
+            |> Set.toSeq
 
     member x.contains(edge) =
         match (Map.tryPick (fun k (v : Set<Edge>) -> 
@@ -43,8 +50,15 @@ type Chart(edgeSets : Map<int, Set<Edge>>) =
             invalidArg "index" "less than 0"
         else
             match Map.tryFind(index) x.EdgeSets with
-                | Some(v) -> x.EdgeSets <- Map.add index (v.Add(edge)) x.EdgeSets
-                | None -> x.EdgeSets <- Map.add index (Set.singleton(edge)) x.EdgeSets
+                | Some(v) ->
+                            if (not (v.Contains(edge))) then
+                                x.EdgeSets <- Map.add index (v.Add(edge)) x.EdgeSets
+                                true
+                            else
+                                false
+                | None ->
+                        x.EdgeSets <- Map.add index (Set.singleton(edge)) x.EdgeSets
+                        true
 
     override x.Equals(another) = 
         match another with

@@ -29,13 +29,15 @@
         //Creates a new dotted rule for the given rule, with the dot position at the beginning of the relu's right side.
         new(rule) = DottedRule(rule, 0)
 
-        //Creates a dotted rule based on the specified rule with biased position.
-        static member advanceDot(dottedRule : DottedRule) =
-            DottedRule(dottedRule, dottedRule.Position + 1)
-
     [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
     [<RequireQualifiedAccess>]
     module DottedRule =
+        let startRule(seed : Category) =
+            if (seed.Type = Terminal) then
+                invalidArg "seed" "seed is a terminal"
+            else
+                DottedRule(Rule(Category.start, seed), 0)
+
         let advanceDot(dottedRule : DottedRule) =
             DottedRule(dottedRule, dottedRule.Position + 1)
     
