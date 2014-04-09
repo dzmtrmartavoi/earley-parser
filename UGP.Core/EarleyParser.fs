@@ -51,18 +51,16 @@
                     |> Seq.iter (fun e -> completeForEdge(chart, e, index))
 
         member x.parse(tokens : string seq, seed) =
-            let index = ref 0
-            let seedEdge = Edge(DottedRule.startRule(seed), !index)
+            let seedEdge = Edge(DottedRule.startRule(seed), 0)
             let chart = Chart()
-            chart.addEdge(!index, seedEdge)
+            chart.addEdge(0, seedEdge)
                 |> ignore
             tokens
                 |> Seq.iteri (fun i token ->
                                         x.predict(x.Grammar, chart, i)
-                                        incr index
-                                        x.scan(chart, !index, token)
-                                        x.complete(chart, !index)
-                                        x.predict(x.Grammar, chart, !index))
+                                        x.scan(chart, i + 1, token)
+                                        x.complete(chart, i + 1)
+                                        x.predict(x.Grammar, chart, i + 1))
             let parse = Parse(seed, chart, tokens)
             parse
 
