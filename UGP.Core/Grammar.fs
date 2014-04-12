@@ -5,15 +5,22 @@
     open System.Collections.Generic
     open System.Text
 
-    type Grammar(name, startToken) =
-        let mutable rules : Map<Category, Rule list> = Map.empty
+    type Grammar(name, rules : Rule seq) =
+        let mutable rules : Map<Category, Rule list> = 
+            rules |>
+                Seq.fold (fun seed r ->
+                    match seed.TryFind r.Left with
+                        | Some(existingRules) -> 
+                            seed
+                            |> Map.remove r.Left 
+                            |> Map.add r.Left (r :: existingRules) 
+                        | None -> 
+                            Map.add r.Left [ r ] seed) Map.empty
+
+        new(name) =
+            Grammar(name, Seq.empty)
 
         member x.Name with get() = name
-
-        member x.StartCategoryToken with get() = startToken
-
-        member x.GetStartCategory() =
-            Category(x.StartCategoryToken, CategoryType.NonTerminal)
 
         //Adds a production rule to grammar
         member x.AddRule(rule : Rule) =
