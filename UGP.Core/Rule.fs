@@ -41,9 +41,8 @@
         //Return string representation of the production
         override x.ToString() =
             let builder = StringBuilder()
-            builder
-                .Append(x.Left)
-                .Append(" -> ") |> ignore
-            x.Right |> Seq.iter (fun c -> builder.Append(c.ToString()).Append(' ') |> ignore)
-            builder
-                .ToString()
+                            .Append(x.Left)
+                            .Append(" -> ")
+            x.Right 
+            |> Seq.fold (fun (builder : StringBuilder) c -> builder.Append(c).Append(' ')) builder 
+            |> (fun builder -> builder.ToString())

@@ -23,14 +23,14 @@
         member x.getCompletedEdges(category, origin, index) =
             match chart.EdgeSets.TryFind(index) with
                 | Some(v) ->
-                    Set.filter (fun (e : Edge) ->
+                    Seq.filter (fun (e : Edge) ->
                         e.Origin = origin
                         && e.IsPassive
                         && e.DottedRule.Left = category) v
-                | None -> Set.empty
+                | None -> Seq.empty
 
         member x.getStatus() =
-            if (x.getCompletedEdges(Category.start, 0, Seq.length tokens).IsEmpty) then
+            if (Seq.isEmpty (x.getCompletedEdges(Category.start, 0, Seq.length tokens))) then
                 Status.Reject
             else
                 Status.Accept

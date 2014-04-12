@@ -56,7 +56,7 @@
         let rec create(edge : Edge, parent : ParseTree option) =
             let (e, parentTree) = 
                 if (edge.DottedRule.Left = Category.start) then
-                    (Seq.exactlyOne (Set.toSeq edge.Bases), None)
+                    (Seq.exactlyOne edge.Bases, None)
                 else
                     (edge, if (parent.IsSome
                                && parent.Value.Category = Category.start) then

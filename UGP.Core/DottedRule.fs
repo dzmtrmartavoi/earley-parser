@@ -18,14 +18,6 @@
         override x.GetHashCode() =
             x.Position.GetHashCode() * base.GetHashCode()
 
-        override x.ToString() =
-            let builder = StringBuilder()
-                            .Append(x.Left)
-                            .Append(" -> ")
-            x.Right 
-            |> Seq.fold (fun (builder : StringBuilder) c -> builder.Append(c)) builder 
-            |> (fun builder -> builder.ToString())
-
         //Creates a new dotted rule for the given rule, with the dot position at the beginning of the relu's right side.
         new(rule) = DottedRule(rule, 0)
 
