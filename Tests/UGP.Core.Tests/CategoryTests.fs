@@ -9,7 +9,9 @@
         
         [<Fact>]
         let ``name should not be empty``() =
-            (fun () -> Category(String.Empty, CategoryType.Terminal)) |> should throw typeof<ArgumentException>
+            (fun () -> Category(String.Empty, CategoryType.Terminal)
+                     |> ignore)
+            |> should throw typeof<ArgumentException>
 
         [<Fact>]
         let ``Type member test``() =
