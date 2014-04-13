@@ -37,21 +37,30 @@
         let rule6 = Rule(N, [boy])
         let rule7 = Rule(N, [girl])
 
-        let tokens = [
-            the.Name;
-            boy.Name;
-            left.Name]
+        let testGrammar = Grammar("TestGrammar", [rule1;
+                                                 rule2;
+                                                 rule3;
+                                                 rule4;
+                                                 rule5;
+                                                 rule6;
+                                                 rule7;])
 
-        let grammar = Grammar("TestGrammar", [rule1;
-                                             rule2;
-                                             rule3;
-                                             rule4;
-                                             rule5;
-                                             rule6;
-                                             rule7;])
-
-        let earleyParser = EarleyParser(grammar)
+        let testGrammarParser = EarleyParser(testGrammar)
 
         [<Fact>]
-        let ``recoznize test``() =
-            earleyParser.recognize(tokens, S) |> should equal Accept
+        let ``recoznize test1``() =
+            let tokens = 
+                [the.Name;
+                boy.Name;
+                left.Name]
+
+            testGrammarParser.recognize(tokens, S) |> should equal Accept
+
+        [<Fact>]
+        let ``recoznize test2``() =
+            let tokens = 
+                [the.Name;
+                the.Name;
+                left.Name]
+
+            testGrammarParser.recognize(tokens, S) |> should equal Reject

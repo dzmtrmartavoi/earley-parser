@@ -3,7 +3,7 @@
     open System.Text
 
     [<Sealed>]
-    type Edge(rule, origin, bases : Edge seq) =
+    type Edge(rule, origin, bases : Edge list) =
         do 
             if(origin < 0) then
                 invalidArg "origin" "should be equal or more than 0"
@@ -24,8 +24,8 @@
                                         | None ->  true
                                         | _ -> false
 
-        new(rule, origin) = Edge(rule, origin, Seq.empty)
-        new(rule) = Edge(rule, 0, Seq.empty)
+        new(rule, origin) = Edge(rule, origin, List.empty)
+        new(rule) = Edge(rule, 0, List.empty)
 
         override x.Equals(another) =
             match another with
@@ -34,7 +34,7 @@
                 | _ -> false
 
         override x.GetHashCode() =
-            x.DottedRule.GetHashCode() * x.Origin
+            38 * x.DottedRule.GetHashCode() * x.Origin
 
         override x.ToString() =
             let builder = StringBuilder()
@@ -59,7 +59,7 @@
                                 | Terminal -> if (c.Name <> token) then
                                                 invalidArg "token" "token incompatible with edge"
                                               else
-                                                let newBasis = edge::(List.ofSeq edge.Bases)
+                                                let newBasis = edge::edge.Bases
                                                 Edge(DottedRule.advanceDot edge.DottedRule, edge.Origin, newBasis)
 
         let complete(toComplete : Edge, basis : Edge) =
@@ -74,5 +74,5 @@
                         || basis.DottedRule.Left <> toComplete.DottedRule.ActiveCategory.Value) then
                         invalidArg "basis" "toComplete is not completed by basis"
                     else
-                        let newBasis = basis::(List.ofSeq toComplete.Bases)
+                        let newBasis = basis::toComplete.Bases
                         Edge(DottedRule.advanceDot toComplete.DottedRule, toComplete.Origin, newBasis)
