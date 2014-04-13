@@ -5,7 +5,7 @@ open System
 open System.Collections.Generic
 
 [<Sealed>]
-type Chart(edgeSets : Map<int, Edge seq>) =
+type Chart(edgeSets : Map<int, Edge list>) =
 
     interface System.IEquatable<Chart> with
         member x.Equals another =
@@ -29,7 +29,7 @@ type Chart(edgeSets : Map<int, Edge seq>) =
         x.EdgeSets.[index]
 
     member x.contains(edge) =
-        Map.exists (fun k (v : Edge seq) -> Seq.exists (fun e -> e = edge) v) x.EdgeSets
+        Map.exists (fun k edges -> List.exists (fun e -> e = edge) edges) x.EdgeSets
 
     member x.indexOf(edge) =
         Map.tryPick (fun i edges -> 
@@ -42,7 +42,7 @@ type Chart(edgeSets : Map<int, Edge seq>) =
         x.EdgeSets.ContainsKey(index)
 
     member x.countEdges() = 
-        Map.fold (fun state _ edges -> state + Seq.length edges) 0 x.EdgeSets
+        Map.fold (fun state _ edges -> state + List.length edges) 0 x.EdgeSets
 
     member x.addEdge(index, edge) =
         if (index < 0) then
@@ -50,14 +50,13 @@ type Chart(edgeSets : Map<int, Edge seq>) =
         else
             match Map.tryFind(index) x.EdgeSets with
                 | Some(edges) ->
-                            if (not (Seq.exists (fun e -> e = edge) edges)) then
-                                let edgeList = List.ofSeq edges
-                                x.EdgeSets <- Map.add index (Seq.ofList (edge :: edgeList)) x.EdgeSets
+                            if (not (List.exists (fun e -> e = edge) edges)) then
+                                x.EdgeSets <- Map.add index (edge :: edges) x.EdgeSets
                                 true
                             else
                                 false
                 | None ->
-                        x.EdgeSets <- Map.add index (Seq.singleton(edge)) x.EdgeSets
+                        x.EdgeSets <- Map.add index [edge] x.EdgeSets
                         true
 
     override x.Equals(another) = 

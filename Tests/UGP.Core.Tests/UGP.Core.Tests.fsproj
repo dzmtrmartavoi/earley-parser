@@ -52,6 +52,8 @@
     <Compile Include="EarleyParserTests.fs" />
     <None Include="packages.config" />
     <None Include="app.config" />
+    <Compile Include="CategoryTests.fs" />
+    <Compile Include="RuleTests.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FsUnit.CustomMatchers">

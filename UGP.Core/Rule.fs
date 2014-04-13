@@ -18,13 +18,13 @@
         member x.Right with get() = right
 
         //Test whether the rule is a pre-terminal production rule.
-        member x.IsPreterminal() = 
+        member x.isPreterminal() = 
             x.Right |> Seq.exists (fun c -> match c.Type with
                                                 | CategoryType.Terminal -> true
                                                 | _ -> false)
 
         //Test whether the rule has only one terminal token at the right side
-        member x.IsSinglePreterminal() =
+        member x.isSinglePreterminal() =
             (Seq.length x.Right = 1) && ((Seq.head x.Right).Type = CategoryType.Terminal)
 
         //Test whether the rule equals to another, with the same left and the right side

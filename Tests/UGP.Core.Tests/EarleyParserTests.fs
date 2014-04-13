@@ -1,13 +1,9 @@
 ﻿namespace UGP.Core.Tests
 
-open UGP.Core
-open Xunit
-open FsUnit.Xunit
+    open UGP.Core
+    open Xunit
+    open FsUnit.Xunit
 
-type EarleyParserTests() =
-
-    
-    
     // Grammar (BNF form):
     // S -> NP VP
     // NP -> DET N
@@ -17,41 +13,45 @@ type EarleyParserTests() =
     // N -> boy
     // N -> girl
 
-    let S = Category("S", NonTerminal)
-    let NP = Category("NP", NonTerminal)
-    let VP = Category("VP", NonTerminal)
-    let DET = Category("DET", NonTerminal)
-    let N = Category("N", NonTerminal)
+    // Parse sample: the boy left
 
-    let left = Category("left", Terminal)
-    let the = Category("the", Terminal)
-    let girl = Category("girl", Terminal)
-    let boy = Category("boy", Terminal)
-    let a = Category("a", Terminal)
+    module EarleyParserTests =
 
-    let rule1 = Rule(S, [NP; VP])
-    let rule2 = Rule(NP, [DET; N])
-    let rule3 = Rule(VP, [left])
-    let rule4 = Rule(DET, [a])
-    let rule5 = Rule(DET, [the])
-    let rule6 = Rule(N, [boy])
-    let rule7 = Rule(N, [girl])
+        let S = Category("S", NonTerminal)
+        let NP = Category("NP", NonTerminal)
+        let VP = Category("VP", NonTerminal)
+        let DET = Category("DET", NonTerminal)
+        let N = Category("N", NonTerminal)
 
-    let tokens = [
-        the.Name;
-        boy.Name;
-        left.Name]
+        let left = Category("left", Terminal)
+        let the = Category("the", Terminal)
+        let girl = Category("girl", Terminal)
+        let boy = Category("boy", Terminal)
+        let a = Category("a", Terminal)
 
-    let grammar = Grammar("TestGrammar", [rule1;
-                                         rule2;
-                                         rule3;
-                                         rule4;
-                                         rule5;
-                                         rule6;
-                                         rule7;])
+        let rule1 = Rule(S, [NP; VP])
+        let rule2 = Rule(NP, [DET; N])
+        let rule3 = Rule(VP, [left])
+        let rule4 = Rule(DET, [a])
+        let rule5 = Rule(DET, [the])
+        let rule6 = Rule(N, [boy])
+        let rule7 = Rule(N, [girl])
 
-    let earleyParser = EarleyParser(grammar)
+        let tokens = [
+            the.Name;
+            boy.Name;
+            left.Name]
 
-    [<Fact>]
-    member x.``recoznize``() =
-        earleyParser.recognize(tokens, S) |> should equal Accept
+        let grammar = Grammar("TestGrammar", [rule1;
+                                             rule2;
+                                             rule3;
+                                             rule4;
+                                             rule5;
+                                             rule6;
+                                             rule7;])
+
+        let earleyParser = EarleyParser(grammar)
+
+        [<Fact>]
+        let ``recoznize test``() =
+            earleyParser.recognize(tokens, S) |> should equal Accept
