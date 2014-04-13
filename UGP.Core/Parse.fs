@@ -6,9 +6,6 @@
 
         let mutable parseTrees = Seq.empty
 
-//        new(seed, chart) =
-//            Parse(seed, chart, Seq.empty)
-
         member x.Seed with get() = seed
         member x.Chart with get() = chart
         member x.Tokens with get() = tokens
@@ -21,7 +18,7 @@
                     parseTrees
 
         member x.getCompletedEdges(category, origin, index) =
-            match chart.EdgeSets.TryFind(index) with
+            match chart.Edges.TryFind(index) with
                 | Some(v) ->
                     Seq.filter (fun (e : Edge) ->
                         e.Origin = origin
