@@ -1,4 +1,6 @@
-ugp
+Earley parser
 ===
 
-UGP is abbreviation for Unified Grammar Parser. It extends Earley Parser for parsing grammars that can be changed during parsing.
+An implementation of the earley algorithm.
+
+Usage samples can be found at \Tests\UGP.Core.Tests\EarleyParserTests.fs and UGP.Drawing\Runner.fs
